@@ -1,11 +1,15 @@
 package ru.practicum.dinner;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
     static DinnerConstructor dc;
     static Scanner scanner;
+    final static String ADD_NEW_DISHES = "1";
+    final static String GENERATE_COMBO_OF_DISHES = "2";
+    final static String EXIT = "3";
 
     public static void main(String[] args) {
         dc = new DinnerConstructor();
@@ -16,14 +20,16 @@ public class Main {
             String command = scanner.nextLine();
 
             switch (command) {
-                case "1":
+                case ADD_NEW_DISHES:
                     addNewDish();
                     break;
-                case "2":
+                case GENERATE_COMBO_OF_DISHES:
                     generateDishCombo();
                     break;
-                case "3":
+                case EXIT:
                     return;
+                default:
+                    System.out.println("Неверная команда!");
             }
         }
     }
@@ -40,8 +46,11 @@ public class Main {
         String dishType = scanner.nextLine();
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
-
-        // добавьте новое блюдо
+        if (dishType.equals("") || dishName.equals("")) {
+            System.out.println("Введены некорректные данные!");
+        } else {
+            dc.addDish(dishType, dishName);
+        }
     }
 
     private static void generateDishCombo() {
@@ -52,11 +61,13 @@ public class Main {
         scanner.nextLine();
 
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-        String nextItem = scanner.nextLine();
+        String nextItem = "type";
+        ArrayList<String> typesDishes = new ArrayList<>();
 
         //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
-
+            nextItem = scanner.nextLine();
+            typesDishes.add(nextItem);
         }
 
         // сгенерируйте комбинации блюд и выведите на экран
