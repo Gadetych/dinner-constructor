@@ -59,18 +59,30 @@ public class Main {
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
         int numberOfCombos = scanner.nextInt();
         scanner.nextLine();
+        String nextItem;
+        boolean flag = true;
 
+//        dc.testing("первое", "суп гороховый", "борщ", "щи");
+//        dc.testing("гарнир", "гречка", "рис", "пюре");
+//        dc.testing("салат", "фруктовый", "капустный", "свекольный с чесноком");
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-        String nextItem = "type";
         ArrayList<String> typesDishes = new ArrayList<>();
 
-        //реализуйте ввод типов блюд
-        while (!nextItem.isEmpty()) {
+        while (flag) {
             nextItem = scanner.nextLine();
-            typesDishes.add(nextItem);
+            if (nextItem.isEmpty()) {
+                flag = false;
+            } else if (dc.getMenuRestaurant().get(nextItem) == null) {
+                System.out.println("Несуществующий тип блюда.");
+            } else {
+                typesDishes.add(nextItem);
+            }
         }
-
-        // сгенерируйте комбинации блюд и выведите на экран
+        ArrayList<ArrayList<String>> listOfCombo = dc.generateDishCombo(typesDishes, numberOfCombos);
+        for (int i = 0; i < listOfCombo.size(); i++) {
+            System.out.println("Комбо " + (i + 1));
+            System.out.println(listOfCombo.get(i).toString());
+        }
 
     }
 }
