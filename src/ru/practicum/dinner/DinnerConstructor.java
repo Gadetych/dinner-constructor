@@ -13,15 +13,7 @@ public class DinnerConstructor {
         return menuRestaurant;
     }
 
-    public void testing(String type, String dish1, String dish2, String dish3) {
-        ArrayList<String> dishes = new ArrayList<>();
-        dishes.add(dish1);
-        dishes.add(dish2);
-        dishes.add(dish3);
-        menuRestaurant.put(type, dishes);
-    }
-
-    public void addDish(String dishType, String dishName) {
+    public void addNewDish(String dishType, String dishName) {
         ArrayList<String> arrayDishes = menuRestaurant.get(dishType);
         if (arrayDishes == null) {
             arrayDishes = new ArrayList<>();
@@ -33,7 +25,7 @@ public class DinnerConstructor {
 
     }
 
-    public ArrayList<ArrayList<String>> generateDishCombo(ArrayList<String> typesDishes, int numberOfCombos) {
+    public ArrayList<ArrayList<String>> generateComboLunch(ArrayList<String> typesDishes, int numberOfCombos) {
         ArrayList<ArrayList<String>> listOfCombos = new ArrayList<>(numberOfCombos);
         for (int i = 0; i < numberOfCombos; i++) {
             ArrayList<String> combo = new ArrayList<>();
@@ -46,6 +38,14 @@ public class DinnerConstructor {
         }
 
         return listOfCombos;
+    }
+
+    public void testing(String type, String dish1, String dish2, String dish3) {
+        ArrayList<String> dishes = new ArrayList<>();
+        dishes.add(dish1);
+        dishes.add(dish2);
+        dishes.add(dish3);
+        menuRestaurant.put(type, dishes);
     }
 
 }
