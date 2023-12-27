@@ -1,6 +1,7 @@
 package ru.practicum.dinner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class LunchGeneratorApp {
@@ -9,8 +10,8 @@ public class LunchGeneratorApp {
     final static String GENERATE_COMBO_OF_DISHES = "2";
     final static String EXIT = "3";
 
-    private Scanner scanner;
-    private DinnerConstructor dc;
+    private final Scanner scanner;
+    private final DinnerConstructor dc;
 
     LunchGeneratorApp(DinnerConstructor dc) {
         this.scanner = new Scanner(System.in);
@@ -56,15 +57,36 @@ public class LunchGeneratorApp {
     private void generateDishCombo() {
         System.out.println("Начинаем конструировать обед...");
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
-        int numberOfCombos = Integer.parseInt(scanner.nextLine());
+        int numberOfCombos = setNumberOfCombos();
+        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
+        List<String> typesDishes = setTypesDishes();
+        List<List<String>> listOfCombo = dc.generateComboLunch(typesDishes, numberOfCombos);
+
+        for (int i = 0; i < listOfCombo.size(); i++) {
+            System.out.println("Комбо " + (i + 1));
+            System.out.println(listOfCombo.get(i).toString());
+        }
+
+    }
+
+    private int setNumberOfCombos() {
+        boolean flag = true;
+        int numberOfCombos = 1;
+        while (flag) {
+            numberOfCombos = Integer.parseInt(scanner.nextLine());
+            if (numberOfCombos > 0) {
+                flag = false;
+            } else {
+                System.out.println("Количество наборов должно быть больше 0");
+            }
+        }
+        return numberOfCombos;
+    }
+
+    private List<String> setTypesDishes() {
+        List<String> typesDishes = new ArrayList<>();
         String nextItem;
         boolean flag = true;
-        ArrayList<String> typesDishes = new ArrayList<>();
-
-//        dc.testing("первое", "суп гороховый", "борщ", "щи");
-//        dc.testing("гарнир", "гречка", "рис", "пюре");
-//        dc.testing("салат", "фруктовый", "капустный", "свекольный с чесноком");
-        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
 
         while (flag) {
             nextItem = scanner.nextLine();
@@ -72,17 +94,16 @@ public class LunchGeneratorApp {
                 flag = false;
             } else if (dc.getMenuRestaurant().get(nextItem) == null) {
                 System.out.println("Несуществующий тип блюда.");
+                System.out.print("Выберете из списка: ");
+                for (String type : dc.getMenuRestaurant().keySet()) {
+                    System.out.print(type + " ");
+                }
+                System.out.println();
             } else {
                 typesDishes.add(nextItem);
             }
         }
-
-        ArrayList<ArrayList<String>> listOfCombo = dc.generateComboLunch(typesDishes, numberOfCombos);
-
-        for (int i = 0; i < listOfCombo.size(); i++) {
-            System.out.println("Комбо " + (i + 1));
-            System.out.println(listOfCombo.get(i).toString());
-        }
+        return typesDishes;
 
     }
 }

@@ -1,20 +1,18 @@
 package ru.practicum.dinner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class DinnerConstructor {
 
-    private HashMap<String, ArrayList<String>> menuRestaurant = new HashMap<>();
-    private Random random = new Random();
+    private final Map<String, List<String>> menuRestaurant = new HashMap<>();
+    private final Random random = new Random();
 
-    public HashMap<String, ArrayList<String>> getMenuRestaurant() {
+    public Map<String, List<String>> getMenuRestaurant() {
         return menuRestaurant;
     }
 
     public void addNewDish(String dishType, String dishName) {
-        ArrayList<String> arrayDishes = menuRestaurant.get(dishType);
+        List<String> arrayDishes = menuRestaurant.get(dishType);
         if (arrayDishes == null) {
             arrayDishes = new ArrayList<>();
             arrayDishes.add(dishName);
@@ -25,12 +23,12 @@ public class DinnerConstructor {
 
     }
 
-    public ArrayList<ArrayList<String>> generateComboLunch(ArrayList<String> typesDishes, int numberOfCombos) {
-        ArrayList<ArrayList<String>> listOfCombos = new ArrayList<>(numberOfCombos);
+    public List<List<String>> generateComboLunch(List<String> typesDishes, int numberOfCombos) {
+        List<List<String>> listOfCombos = new ArrayList<>(numberOfCombos);
         for (int i = 0; i < numberOfCombos; i++) {
-            ArrayList<String> combo = new ArrayList<>();
+            List<String> combo = new ArrayList<>();
             for (String type : typesDishes) {
-                ArrayList<String> listOfDishesByType = menuRestaurant.get(type);
+                List<String> listOfDishesByType = menuRestaurant.get(type);
                 int index = random.nextInt(listOfDishesByType.size());
                 combo.add(listOfDishesByType.get(index));
             }
@@ -39,13 +37,4 @@ public class DinnerConstructor {
 
         return listOfCombos;
     }
-
-    public void testing(String type, String dish1, String dish2, String dish3) {
-        ArrayList<String> dishes = new ArrayList<>();
-        dishes.add(dish1);
-        dishes.add(dish2);
-        dishes.add(dish3);
-        menuRestaurant.put(type, dishes);
-    }
-
 }
